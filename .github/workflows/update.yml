@@ -1,0 +1,48 @@
+name: Mise à jour des données
+
+on:
+  schedule:
+    - cron: "47 6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  maj:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installer les dépendances
+        run: |
+          pip install -r requirements.txt playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Collecter les données
+        run: python update.py
+
+      - name: Enregistrer la base mise à jour
+        run: |
+          git config user.name  "maj-automatique"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Données au $(date -u +'%Y-%m-%d')"
+          git push
+
+      - name: Signaler les sources en échec
+        run: |
+          python - <<'EOF'
+          import json, sys
+          st = json.load(open("data/statut.json", encoding="utf-8"))
+          ko = {k: v.get("erreur") for k, v in st.items() if not v.get("ok")}
+          for k, e in ko.items():
+              print(f"::error title=Source en échec : {k}::{e}")
+          sys.exit(1 if ko else 0)
+          EOF
