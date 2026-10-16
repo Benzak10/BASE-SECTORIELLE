@@ -1,0 +1,26 @@
+{
+  "bkam_credit": {
+    "ok": true,
+    "verifie": "2026-10-16 10:44 UTC",
+    "origine": "chargement initial (fichier fourni)",
+    "dernier_point": "2026-08-31",
+    "points": 3374,
+    "erreur": null
+  },
+  "oc_mre": {
+    "ok": true,
+    "verifie": "2026-10-16 10:44 UTC",
+    "origine": "chargement initial (fichier fourni)",
+    "dernier_point": "2026-06-30",
+    "points": 270,
+    "erreur": null
+  },
+  "oc_voyages": {
+    "ok": true,
+    "verifie": "2026-10-16 10:44 UTC",
+    "origine": "chargement initial (fichier fourni)",
+    "dernier_point": "2026-06-30",
+    "points": 270,
+    "erreur": null
+  }
+}

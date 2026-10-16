@@ -1,0 +1,69 @@
+# =====================================================================
+# CATALOGUE DES SÉRIES — Base sectorielle BVC
+# Ajouter une série = ajouter un bloc ci-dessous.
+#
+# Champs :
+#   id          identifiant unique (minuscules, sans espace)
+#   nom         libellé affiché
+#   secteur     secteur BVC
+#   societes    sociétés cotées concernées
+#   unite       unité affichée
+#   frequence   mensuelle / quotidienne / trimestrielle / annuelle
+#   source      nom de la source affiché
+#   collecteur  module de collecte (collect/<collecteur>.py)
+#   params      paramètres propres au collecteur
+#   formule     (séries calculées uniquement) expression sur d'autres id
+#   nature      encours / flux / prix / ratio (détermine les calculs affichés)
+#   sens        inverse = une baisse est favorable (affichée en vert)
+#   cle         true = indicateur affiché en tête de la page secteur
+# =====================================================================
+
+sources:
+  bkam_credit:
+    nom: "Bank Al-Maghrib — Ventilation du crédit bancaire par objet économique"
+    page: "https://www.bkam.ma/Statistiques/Statistiques-monetaires/Series-statistiques-monetaires"
+    lien_contient: "Ventilation du crédit bancaire par objet"
+    collecteur: bkam
+  oc_mre:
+    nom: "Office des Changes — Évolution mensuelle des recettes MRE"
+    page: "https://www.oc.gov.ma/fr/etudes-et-statistiques/series-statistiques"
+    lien_contient: "Evol_MRE_Mensuel"
+    collecteur: office_changes
+  oc_voyages:
+    nom: "Office des Changes — Évolution mensuelle des recettes Voyages"
+    page: "https://www.oc.gov.ma/fr/etudes-et-statistiques/series-statistiques"
+    lien_contient: "Evol_recettes_Voyages"
+    collecteur: office_changes
+  sucre:
+    nom: "ICE Futures — Sucre brut n°11 (New York)"
+    collecteur: marches
+
+series:
+  # ---------------------------------------------------------------- BANQUES
+  - {id: credit_total,        nom: "Crédit bancaire total",                       secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Crédit bancaire"}, nature: encours, cle: true}
+  - {id: credit_tresorerie,   nom: "Comptes débiteurs et crédits de trésorerie",  secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Comptes débiteurs et crédits de trésorerie"}, nature: encours}
+  - {id: credit_equipement,   nom: "Crédits à l'équipement",                      secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Crédits à l'équipement"}, nature: encours, cle: true}
+  - {id: credit_immobilier,   nom: "Crédits immobiliers",                         secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Crédits immobiliers"}, nature: encours, cle: true}
+  - {id: credit_habitat,      nom: "Crédits à l'habitat",                         secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Crédits à l'habitat"}, nature: encours}
+  - {id: credit_particip,     nom: "dont financement participatif à l'habitat",   secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Dont: Financement participatif"}, nature: encours}
+  - {id: credit_promoteurs,   nom: "Crédits aux promoteurs immobiliers",          secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Crédits aux promoteurs"}, nature: encours}
+  - {id: credit_conso,        nom: "Crédits à la consommation",                   secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Crédits à la consommation"}, nature: encours}
+  - {id: credit_divers,       nom: "Créances diverses sur la clientèle",          secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Créances diverses"}, nature: encours}
+  - {id: credit_financier,    nom: "Crédits à caractère financier",               secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Crédits à caract"}, nature: encours}
+  - {id: credit_autres,       nom: "Autres crédits (affacturage)",                secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Autres crédits"}, nature: encours}
+  - {id: creances_souffrance, nom: "Créances en souffrance",                      secteur: Banques, unite: MDH, frequence: mensuelle, source: bkam_credit, params: {ligne: "Créances en souffrance"}, nature: encours}
+  - {id: taux_cs,             nom: "Taux de créances en souffrance",              secteur: Banques, unite: "%", frequence: mensuelle, source: calcul, formule: "creances_souffrance / credit_total * 100", nature: ratio, cle: true, sens: inverse}
+
+  # ------------------------------------------------- BANQUES / MACRO — MRE
+  - {id: recettes_mre,        nom: "Recettes MRE (transferts)",                   secteur: Banques, unite: MDH, frequence: mensuelle, source: oc_mre, params: {}, nature: flux, cle: true}
+
+  # ------------------------------------------------------------- TOURISME
+  - {id: recettes_voyages,    nom: "Recettes Voyages",                            secteur: Tourisme, unite: MDH, frequence: mensuelle, source: oc_voyages, params: {}, nature: flux, cle: true}
+
+  # ------------------------------------------------------- AGROALIMENTAIRE
+  - {id: sucre_brut_11,       nom: "Sucre brut n°11 (New York)",                  secteur: Agroalimentaire, unite: "c/lb", frequence: quotidienne, source: sucre, params: {ticker: "SB=F"}, nature: prix, cle: true}
+
+secteurs:
+  Banques:         [Attijariwafa bank, BCP, Bank of Africa, CIH Bank, Crédit du Maroc, BMCI, CFG Bank]
+  Tourisme:        [Risma]
+  Agroalimentaire: [Cosumar]
