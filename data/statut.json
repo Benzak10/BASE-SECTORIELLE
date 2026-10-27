@@ -1,7 +1,7 @@
 {
   "bkam_credit": {
     "ok": false,
-    "verifie": "2026-10-26 13:48 UTC",
+    "verifie": "2026-10-27 12:41 UTC",
     "origine": "chargement initial (fichier fourni)",
     "dernier_point": "2026-08-31",
     "points": 3374,
@@ -9,7 +9,7 @@
   },
   "oc_mre": {
     "ok": false,
-    "verifie": "2026-10-26 13:48 UTC",
+    "verifie": "2026-10-27 12:41 UTC",
     "origine": "https://www.oc.gov.ma/sites/default/files/Evol_MRE_Mensuel_7.XLSX",
     "dernier_point": "2026-06-30",
     "points": 270,
@@ -17,7 +17,7 @@
   },
   "oc_voyages": {
     "ok": false,
-    "verifie": "2026-10-26 13:48 UTC",
+    "verifie": "2026-10-27 12:41 UTC",
     "origine": "https://www.oc.gov.ma/sites/default/files/Evol_recettes_Voyages_16.xlsx",
     "dernier_point": "2026-06-30",
     "points": 270,
@@ -25,9 +25,9 @@
   },
   "sucre": {
     "ok": true,
-    "verifie": "2026-10-26 13:48 UTC",
+    "verifie": "2026-10-27 12:41 UTC",
     "origine": "Yahoo Finance",
-    "dernier_point": "2026-10-26",
+    "dernier_point": "2026-10-27",
     "points": 2515,
     "erreur": null
   }
